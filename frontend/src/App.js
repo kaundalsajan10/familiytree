@@ -673,7 +673,8 @@ const AdminPanel = () => {
       setNewRelationship({
         member1_id: "",
         member2_id: "",
-        relationship_type: ""
+        relationship_type: "",
+        family_filter: ""
       });
       
       fetchData();
