@@ -551,10 +551,89 @@ const AdminPanel = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="families">Manage Families</TabsTrigger>
             <TabsTrigger value="members">Manage Members</TabsTrigger>
-            <TabsTrigger value="families">View Families</TabsTrigger>
+            <TabsTrigger value="view">View Families</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="families" className="space-y-6">
+            {/* Add Family Form */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Plus className="w-5 h-5" />
+                  <span>Add New Family</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="family-name">Family Name</Label>
+                    <Input
+                      id="family-name"
+                      value={newFamily.name}
+                      placeholder="e.g. नया परिवार"
+                      onChange={(e) => setNewFamily({ ...newFamily, name: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="family-description">Description</Label>
+                    <Input
+                      id="family-description"
+                      value={newFamily.description}
+                      placeholder="e.g. Description of the family"
+                      onChange={(e) => setNewFamily({ ...newFamily, description: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <Button onClick={addFamily} className="w-full">
+                  Add Family
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Existing Families List */}
+            <Card>
+              <CardHeader>
+                <CardTitle>All Families</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {families.map((family) => {
+                    const familyMembers = members.filter(m => m.family_id === family.id);
+                    
+                    return (
+                      <Card key={family.id} className="border-orange-100">
+                        <CardHeader className="bg-gradient-to-r from-orange-100 to-yellow-100">
+                          <CardTitle>{family.name}</CardTitle>
+                          <CardDescription>{family.description}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-6">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-gray-600">Members:</span>
+                              <Badge variant="secondary">{familyMembers.length}</Badge>
+                            </div>
+                            
+                            <div className="space-y-1">
+                              {familyMembers.map((member) => (
+                                <div key={member.id} className="text-sm text-gray-700">
+                                  {member.name} {member.age && `(${member.age})`}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="members" className="space-y-6">
             {/* Add Member Form */}
