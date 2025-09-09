@@ -934,6 +934,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/family/:familyId" element={<FamilyTreeRoute />} />
+          <Route path="/family/new-vikas-family" element={<VikasFamily />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </BrowserRouter>
