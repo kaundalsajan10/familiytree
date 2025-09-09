@@ -50,6 +50,7 @@ class Member(BaseModel):
     contact: Optional[str] = None
     photo_url: Optional[str] = None
     gender: Optional[str] = None
+    additional_families: Optional[List[str]] = []  # For members who belong to multiple families
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class MemberCreate(BaseModel):
