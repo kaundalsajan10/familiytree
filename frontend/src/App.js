@@ -352,13 +352,16 @@ const FamilyTree = ({ familyId }) => {
       }
     });
 
-    // Find family heads (oldest members with no parents, typically male heads)
+    // Find family heads (members with no parents or oldest married members)
     const familyHeads = members.filter(member => {
       const memberData = memberMap[member.id];
-      return memberData.parents.length === 0 && memberData.spouses.length > 0;
+      return memberData.parents.length === 0;
     }).sort((a, b) => (b.age || 0) - (a.age || 0));
 
-    setTreeData({ memberMap, familyHeads, displayedMembers });
+    // If no clear heads found, use oldest members
+    const actualHeads = familyHeads.length > 0 ? familyHeads : members.sort((a, b) => (b.age || 0) - (a.age || 0)).slice(0, 2);
+
+    setTreeData({ memberMap, familyHeads: actualHeads, displayedMembers });
   };
 
   const renderFamilyUnit = (head) => {
