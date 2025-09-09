@@ -293,12 +293,18 @@ const FamilyTree = ({ familyId }) => {
   };
 
   const buildTreeStructure = (members, relationships) => {
-    const tree = {};
     const memberMap = {};
+    const displayedMembers = new Set(); // Track displayed members to avoid duplicates
     
     // Create member map
     members.forEach(member => {
-      memberMap[member.id] = { ...member, children: [], spouses: [], parents: [] };
+      memberMap[member.id] = { 
+        ...member, 
+        children: [], 
+        spouses: [], 
+        parents: [],
+        isDisplayed: false
+      };
     });
 
     // Process relationships
@@ -315,7 +321,6 @@ const FamilyTree = ({ familyId }) => {
             member2.spouses.push(member1);
           }
         } else if (rel.relationship_type === 'father') {
-          // member1 is father of member2
           if (!member1.children.find(c => c.id === member2.id)) {
             member1.children.push(member2);
           }
@@ -323,7 +328,6 @@ const FamilyTree = ({ familyId }) => {
             member2.parents.push(member1);
           }
         } else if (rel.relationship_type === 'mother') {
-          // member1 is mother of member2
           if (!member1.children.find(c => c.id === member2.id)) {
             member1.children.push(member2);
           }
@@ -331,7 +335,6 @@ const FamilyTree = ({ familyId }) => {
             member2.parents.push(member1);
           }
         } else if (rel.relationship_type === 'son') {
-          // member1 is son of member2, so member2 is parent of member1
           if (!member2.children.find(c => c.id === member1.id)) {
             member2.children.push(member1);
           }
@@ -339,7 +342,6 @@ const FamilyTree = ({ familyId }) => {
             member1.parents.push(member2);
           }
         } else if (rel.relationship_type === 'daughter') {
-          // member1 is daughter of member2, so member2 is parent of member1
           if (!member2.children.find(c => c.id === member1.id)) {
             member2.children.push(member1);
           }
@@ -347,17 +349,16 @@ const FamilyTree = ({ familyId }) => {
             member1.parents.push(member2);
           }
         }
-        // Note: brother/sister relationships don't create parent-child hierarchies
       }
     });
 
-    // Find root members (those with no parents in this family)
-    const roots = members.filter(member => {
+    // Find family heads (oldest members with no parents, typically male heads)
+    const familyHeads = members.filter(member => {
       const memberData = memberMap[member.id];
-      return memberData.parents.length === 0;
-    });
+      return memberData.parents.length === 0 && memberData.spouses.length > 0;
+    }).sort((a, b) => (b.age || 0) - (a.age || 0));
 
-    setTreeData({ memberMap, roots });
+    setTreeData({ memberMap, familyHeads, displayedMembers });
   };
 
   const renderMember = (member, level = 0) => {
