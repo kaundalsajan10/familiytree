@@ -722,7 +722,7 @@ function App() {
 
 // Route wrapper for Family Tree
 const FamilyTreeRoute = () => {
-  const { familyId } = require('react-router-dom').useParams();
+  const { familyId } = useParams();
   return <FamilyTree familyId={familyId} />;
 };
 
