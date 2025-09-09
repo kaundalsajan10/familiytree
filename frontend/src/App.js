@@ -308,12 +308,46 @@ const FamilyTree = ({ familyId }) => {
       
       if (member1 && member2) {
         if (rel.relationship_type === 'spouse') {
-          member1.spouses.push(member2);
-          member2.spouses.push(member1);
-        } else if (rel.relationship_type === 'father' || rel.relationship_type === 'mother') {
-          member1.children.push(member2);
-          member2.parents.push(member1);
+          if (!member1.spouses.find(s => s.id === member2.id)) {
+            member1.spouses.push(member2);
+          }
+          if (!member2.spouses.find(s => s.id === member1.id)) {
+            member2.spouses.push(member1);
+          }
+        } else if (rel.relationship_type === 'father') {
+          // member1 is father of member2
+          if (!member1.children.find(c => c.id === member2.id)) {
+            member1.children.push(member2);
+          }
+          if (!member2.parents.find(p => p.id === member1.id)) {
+            member2.parents.push(member1);
+          }
+        } else if (rel.relationship_type === 'mother') {
+          // member1 is mother of member2
+          if (!member1.children.find(c => c.id === member2.id)) {
+            member1.children.push(member2);
+          }
+          if (!member2.parents.find(p => p.id === member1.id)) {
+            member2.parents.push(member1);
+          }
+        } else if (rel.relationship_type === 'son') {
+          // member1 is son of member2, so member2 is parent of member1
+          if (!member2.children.find(c => c.id === member1.id)) {
+            member2.children.push(member1);
+          }
+          if (!member1.parents.find(p => p.id === member2.id)) {
+            member1.parents.push(member2);
+          }
+        } else if (rel.relationship_type === 'daughter') {
+          // member1 is daughter of member2, so member2 is parent of member1
+          if (!member2.children.find(c => c.id === member1.id)) {
+            member2.children.push(member1);
+          }
+          if (!member1.parents.find(p => p.id === member2.id)) {
+            member1.parents.push(member2);
+          }
         }
+        // Note: brother/sister relationships don't create parent-child hierarchies
       }
     });
 
