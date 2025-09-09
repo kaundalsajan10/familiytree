@@ -528,9 +528,9 @@ const FamilyTree = ({ familyId }) => {
           </div>
           
           <div className="overflow-x-auto">
-            <div className="min-w-full flex justify-center">
-              <div className="space-y-8">
-                {treeData.roots && treeData.roots.map((root) => renderMember(root))}
+            <div className="min-w-full">
+              <div className="space-y-12 flex flex-col items-center">
+                {treeData.familyHeads && treeData.familyHeads.map((head) => renderFamilyUnit(head))}
               </div>
             </div>
           </div>
