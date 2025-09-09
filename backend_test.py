@@ -5,7 +5,7 @@ import base64
 from datetime import datetime
 
 class FamilyTreeAPITester:
-    def __init__(self, base_url="https://family-branch-web.preview.emergentagent.com"):
+    def __init__(self, base_url="https://github-changes.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.auth_header = None
