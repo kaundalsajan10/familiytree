@@ -427,6 +427,7 @@ const FamilyTree = ({ familyId }) => {
         {/* Children */}
         {memberData.children.length > 0 && (
           <div className="mt-8">
+            <div className="text-xs text-gray-500 mb-2 text-center">बच्चे (Children)</div>
             {/* Connection line */}
             <div className="w-px h-8 bg-gray-400 mx-auto"></div>
             <div className="flex justify-center space-x-8">
