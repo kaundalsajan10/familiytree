@@ -902,7 +902,23 @@ const AdminPanel = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div>
+                    <Label htmlFor="family-filter">Filter by Family</Label>
+                    <Select value={newRelationship.family_filter} onValueChange={(value) => setNewRelationship({ ...newRelationship, family_filter: value, member1_id: "", member2_id: "" })}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select family (optional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">All Families</SelectItem>
+                        {families.map((family) => (
+                          <SelectItem key={family.id} value={family.id}>
+                            {family.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div>
                     <Label htmlFor="member1">First Member</Label>
                     <Select value={newRelationship.member1_id} onValueChange={(value) => setNewRelationship({ ...newRelationship, member1_id: value })}>
@@ -910,11 +926,16 @@ const AdminPanel = () => {
                         <SelectValue placeholder="Select member" />
                       </SelectTrigger>
                       <SelectContent>
-                        {members.map((member) => (
-                          <SelectItem key={member.id} value={member.id}>
-                            {member.name}
-                          </SelectItem>
-                        ))}
+                        {members
+                          .filter(member => !newRelationship.family_filter || member.family_id === newRelationship.family_filter)
+                          .map((member) => {
+                            const family = families.find(f => f.id === member.family_id);
+                            return (
+                              <SelectItem key={member.id} value={member.id}>
+                                {member.name} ({family?.name || 'Unknown Family'})
+                              </SelectItem>
+                            );
+                          })}
                       </SelectContent>
                     </Select>
                   </div>
@@ -925,11 +946,16 @@ const AdminPanel = () => {
                         <SelectValue placeholder="Select member" />
                       </SelectTrigger>
                       <SelectContent>
-                        {members.map((member) => (
-                          <SelectItem key={member.id} value={member.id}>
-                            {member.name}
-                          </SelectItem>
-                        ))}
+                        {members
+                          .filter(member => !newRelationship.family_filter || member.family_id === newRelationship.family_filter)
+                          .map((member) => {
+                            const family = families.find(f => f.id === member.family_id);
+                            return (
+                              <SelectItem key={member.id} value={member.id}>
+                                {member.name} ({family?.name || 'Unknown Family'})
+                              </SelectItem>
+                            );
+                          })}
                       </SelectContent>
                     </Select>
                   </div>
