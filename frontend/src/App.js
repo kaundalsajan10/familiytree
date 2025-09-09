@@ -713,7 +713,7 @@ const AdminPanel = () => {
         member1_id: "",
         member2_id: "",
         relationship_type: "",
-        family_filter: ""
+        family_filter: "all"
       });
       
       fetchData();
