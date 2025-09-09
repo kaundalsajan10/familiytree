@@ -69,7 +69,7 @@ const Homepage = () => {
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
-                <Family className="w-6 h-6 text-white" />
+                <Users2 className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">गाँव का पारिवारिक वृक्ष</h1>
