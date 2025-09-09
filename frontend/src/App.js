@@ -350,8 +350,8 @@ const FamilyTree = ({ familyId }) => {
             </div>
           </div>
           
-          {/* Individual Family Link for married members */}
-          {memberData.spouses.length > 0 && (
+          {/* Individual Family Link for married MALE members only */}
+          {memberData.spouses.length > 0 && member.gender === 'पुरुष' && (
             <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
               <Link to={`/individual-family/${member.id}`}>
                 <Button size="sm" variant="outline" className="text-xs px-2 py-1">
