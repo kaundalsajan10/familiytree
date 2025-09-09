@@ -430,6 +430,22 @@ const AdminPanel = () => {
     }
   };
 
+  const addFamily = async () => {
+    try {
+      await axios.post(`${API}/families`, newFamily);
+      
+      setNewFamily({
+        name: "",
+        description: ""
+      });
+      
+      fetchData();
+      alert("Family added successfully!");
+    } catch (error) {
+      alert("Error adding family: " + error.response?.data?.detail);
+    }
+  };
+
   const addMember = async () => {
     try {
       await axios.post(`${API}/members`, {
