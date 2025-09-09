@@ -950,7 +950,7 @@ const AdminPanel = () => {
                         <SelectValue placeholder="Select family (optional)" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">All Families</SelectItem>
+                        <SelectItem value="all">All Families</SelectItem>
                         {families.map((family) => (
                           <SelectItem key={family.id} value={family.id}>
                             {family.name}
