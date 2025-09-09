@@ -131,28 +131,31 @@ const Homepage = () => {
                       <h3 className="text-lg font-semibold mb-3 text-gray-800">सदस्य (Members)</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {searchResults.members.map((member) => (
-                          <Card key={member.id} className="bg-white border-orange-100 hover:shadow-md transition-shadow">
-                            <CardContent className="p-4">
-                              <div className="flex items-center space-x-3">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                  member.gender === 'पुरुष' ? 'bg-blue-400 border-4 border-blue-600' : 'bg-pink-400 border-4 border-pink-600'
-                                }`}>
-                                  <span className="text-white font-semibold text-lg">
-                                    {member.name.charAt(0)}
-                                  </span>
+                          <Link key={member.id} to={`/family/${member.family_id}`}>
+                            <Card className="bg-white border-orange-100 hover:shadow-md transition-shadow cursor-pointer">
+                              <CardContent className="p-4">
+                                <div className="flex items-center space-x-3">
+                                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                    member.gender === 'पुरुष' ? 'bg-blue-400 border-4 border-blue-600' : 'bg-pink-400 border-4 border-pink-600'
+                                  }`}>
+                                    <span className="text-white font-semibold text-lg">
+                                      {member.name.charAt(0)}
+                                    </span>
+                                  </div>
+                                  <div className="flex-1">
+                                    <h4 className="font-semibold text-gray-900">{member.name}</h4>
+                                    {member.age && <p className="text-sm text-gray-600">उम्र: {member.age}</p>}
+                                    {member.occupation && (
+                                      <Badge variant="secondary" className="text-xs mt-1">
+                                        {member.occupation}
+                                      </Badge>
+                                    )}
+                                    <p className="text-xs text-gray-500 mt-1">परिवार देखने के लिए क्लिक करें</p>
+                                  </div>
                                 </div>
-                                <div className="flex-1">
-                                  <h4 className="font-semibold text-gray-900">{member.name}</h4>
-                                  {member.age && <p className="text-sm text-gray-600">उम्र: {member.age}</p>}
-                                  {member.occupation && (
-                                    <Badge variant="secondary" className="text-xs mt-1">
-                                      {member.occupation}
-                                    </Badge>
-                                  )}
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
+                              </CardContent>
+                            </Card>
+                          </Link>
                         ))}
                       </div>
                     </div>
