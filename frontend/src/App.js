@@ -398,7 +398,8 @@ const FamilyTree = ({ familyId }) => {
 
         {/* Spouse */}
         {memberData.spouses.length > 0 && (
-          <div className="flex items-center mt-8 mb-4">
+          <div className="flex flex-col items-center mt-8 mb-4">
+            <div className="text-xs text-gray-500 mb-2">पति/पत्नी (Spouse)</div>
             <div className="flex items-center space-x-4">
               {memberData.spouses.map((spouse, index) => (
                 <div key={spouse.id} className="flex items-center space-x-2">
