@@ -388,6 +388,10 @@ const AdminPanel = () => {
   const [families, setFamilies] = useState([]);
   const [members, setMembers] = useState([]);
   const [activeTab, setActiveTab] = useState("members");
+  const [newFamily, setNewFamily] = useState({
+    name: "",
+    description: ""
+  });
   const [newMember, setNewMember] = useState({
     family_id: "",
     name: "",
