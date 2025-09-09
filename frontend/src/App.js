@@ -592,7 +592,8 @@ const AdminPanel = () => {
   const [newRelationship, setNewRelationship] = useState({
     member1_id: "",
     member2_id: "",
-    relationship_type: ""
+    relationship_type: "",
+    family_filter: ""
   });
 
   const authenticate = async () => {
