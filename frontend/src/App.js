@@ -313,8 +313,121 @@ const FamilyTree = ({ familyId }) => {
         </div>
       </header>
 
-      {/* Family Tree */}
+      {/* Family Tree Network */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <Card className="bg-white/80 backdrop-blur-sm border-orange-200">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Network className="w-5 h-5 text-orange-600" />
+                <span>पारिवारिक संबंध नेटवर्क (Family Relationship Network)</span>
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        </div>
+
+        {/* Network Graph Visualization */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <div className="relative" style={{ minHeight: '400px' }}>
+            <svg width="100%" height="400" className="border border-orange-100 rounded">
+              {/* Generate network connections */}
+              {members.map((member, index) => {
+                const memberRelationships = getRelationships(member.id);
+                const x = 100 + (index % 4) * 200;
+                const y = 100 + Math.floor(index / 4) * 120;
+                
+                return (
+                  <g key={member.id}>
+                    {/* Connection lines */}
+                    {memberRelationships.map((rel) => {
+                      const relatedMember = getRelatedMember(rel, member.id);
+                      const relatedIndex = members.findIndex(m => m.id === relatedMember?.id);
+                      if (relatedIndex === -1) return null;
+                      
+                      const x2 = 100 + (relatedIndex % 4) * 200;
+                      const y2 = 100 + Math.floor(relatedIndex / 4) * 120;
+                      
+                      return (
+                        <g key={rel.id}>
+                          <line
+                            x1={x}
+                            y1={y}
+                            x2={x2}
+                            y2={y2}
+                            stroke="#fb923c"
+                            strokeWidth="2"
+                            opacity="0.6"
+                          />
+                          <text
+                            x={(x + x2) / 2}
+                            y={(y + y2) / 2 - 5}
+                            fill="#f97316"
+                            fontSize="12"
+                            textAnchor="middle"
+                            className="font-medium"
+                          >
+                            {rel.relationship_type}
+                          </text>
+                        </g>
+                      );
+                    })}
+                    
+                    {/* Member node */}
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r="30"
+                      fill="url(#memberGradient)"
+                      stroke="#f97316"
+                      strokeWidth="3"
+                    />
+                    <text
+                      x={x}
+                      y={y + 5}
+                      fill="white"
+                      fontSize="16"
+                      fontWeight="bold"
+                      textAnchor="middle"
+                    >
+                      {member.name.charAt(0)}
+                    </text>
+                    <text
+                      x={x}
+                      y={y + 50}
+                      fill="#374151"
+                      fontSize="12"
+                      fontWeight="medium"
+                      textAnchor="middle"
+                    >
+                      {member.name}
+                    </text>
+                    {member.age && (
+                      <text
+                        x={x}
+                        y={y + 65}
+                        fill="#6b7280"
+                        fontSize="10"
+                        textAnchor="middle"
+                      >
+                        उम्र: {member.age}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+              
+              {/* Gradient definition */}
+              <defs>
+                <linearGradient id="memberGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#fb923c', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#f97316', stopOpacity: 1 }} />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        {/* Member Details Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {members.map((member) => {
             const memberRelationships = getRelationships(member.id);
@@ -331,6 +444,15 @@ const FamilyTree = ({ familyId }) => {
                     <div>
                       <CardTitle className="text-lg">{member.name}</CardTitle>
                       {member.age && <p className="text-sm text-gray-600">उम्र: {member.age}</p>}
+                      
+                      {/* Check if member has additional families */}
+                      {member.name === "विकास शर्मा" && (
+                        <div className="mt-2">
+                          <Link to="/family/new-vikas-family" className="text-sm text-blue-600 hover:text-blue-800 underline">
+                            विकास का परिवार देखें →
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardHeader>
