@@ -967,7 +967,7 @@ const AdminPanel = () => {
                       </SelectTrigger>
                       <SelectContent>
                         {members
-                          .filter(member => !newRelationship.family_filter || member.family_id === newRelationship.family_filter)
+                          .filter(member => newRelationship.family_filter === "all" || !newRelationship.family_filter || member.family_id === newRelationship.family_filter)
                           .map((member) => {
                             const family = families.find(f => f.id === member.family_id);
                             return (
