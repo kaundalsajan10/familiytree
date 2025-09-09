@@ -942,6 +942,81 @@ function App() {
   );
 }
 
+// Vikas Family Component
+const VikasFamily = () => {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
+      <header className="bg-white shadow-sm border-b border-orange-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div className="flex items-center space-x-3">
+              <Link to="/">
+                <Button variant="outline" size="sm">
+                  <Home className="w-4 h-4 mr-2" />
+                  मुख्य पृष्ठ
+                </Button>
+              </Link>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">विकास शर्मा का परिवार</h1>
+                <p className="text-sm text-gray-600">Vikas Sharma's Family Tree</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Card className="bg-white/80 backdrop-blur-sm border-orange-200">
+          <CardHeader className="bg-gradient-to-r from-orange-100 to-yellow-100">
+            <CardTitle className="text-xl">विकास शर्मा का अपना परिवार</CardTitle>
+            <CardDescription>
+              यह विकास शर्मा का अपना परिवार है जो मुख्य शर्मा परिवार से अलग है
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Vikas as head of his own family */}
+              <Card className="border-orange-100">
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-16 h-16 bg-gradient-to-r from-orange-400 to-red-400 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-xl">वि</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-lg">विकास शर्मा</h4>
+                      <p className="text-sm text-gray-600">उम्र: 32</p>
+                      <Badge variant="secondary" className="text-xs mt-1">किसान</Badge>
+                      <p className="text-xs text-gray-500 mt-1">परिवार के मुखिया</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Placeholder for future family members */}
+              <Card className="border-dashed border-2 border-orange-200">
+                <CardContent className="p-4 text-center">
+                  <div className="text-gray-400">
+                    <Users2 className="w-12 h-12 mx-auto mb-2" />
+                    <p className="text-sm">भविष्य में परिवार के सदस्य यहाँ दिखाए जाएंगे</p>
+                    <p className="text-xs mt-1">Future family members will be shown here</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong>नोट:</strong> विकास शर्मा मुख्य शर्मा परिवार का सदस्य है लेकिन उसका अपना अलग परिवार भी है। 
+                यह पारिवारिक संरचना में सामान्य बात है जहाँ बेटे अपना अलग परिवार बनाते हैं।
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+};
+
 // Route wrapper for Family Tree
 const FamilyTreeRoute = () => {
   const { familyId } = useParams();
