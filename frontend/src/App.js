@@ -359,134 +359,121 @@ const FamilyTree = ({ familyId }) => {
     setTreeData({ memberMap, familyHeads });
   };
 
-  const renderFamilyUnit = (head) => {
-    const headData = treeData.memberMap[head.id];
-    if (!headData || treeData.displayedMembers.has(head.id)) return null;
-
-    // Mark head as displayed
-    treeData.displayedMembers.add(head.id);
+  const renderSimpleFamilyTree = () => {
+    if (!treeData.memberMap || !treeData.familyHeads) return null;
 
     return (
-      <div key={head.id} className="family-unit mb-12">
-        {/* Family Head and Spouse Row */}
-        <div className="flex justify-center items-center mb-8">
-          {/* Head */}
-          <div className="flex flex-col items-center mx-4">
-            <div className="text-xs text-gray-600 mb-2 font-semibold">
-              {head.gender === 'पुरुष' ? 'पति (Husband)' : 'पत्नी (Wife)'}
-            </div>
-            <div className={`w-24 h-32 rounded-xl border-4 ${
-              head.gender === 'पुरुष' ? 'border-blue-500 bg-blue-50' : 'border-pink-500 bg-pink-50'
-            } flex flex-col items-center justify-center p-2 shadow-lg`}>
-              <div className={`w-16 h-16 rounded-full ${
-                head.gender === 'पुरुष' ? 'bg-blue-400' : 'bg-pink-400'
-              } flex items-center justify-center mb-2`}>
-                <span className="text-white font-bold text-lg">
-                  {head.name.charAt(0)}
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="text-xs font-semibold text-gray-800 leading-tight">{head.name}</p>
-                {head.age && <p className="text-xs text-gray-600">उम्र: {head.age}</p>}
-                {head.occupation && <p className="text-xs text-gray-500">{head.occupation}</p>}
-              </div>
-            </div>
-          </div>
+      <div className="space-y-12">
+        {treeData.familyHeads.map((head) => {
+          const headData = treeData.memberMap[head.id];
+          if (!headData) return null;
 
-          {/* Marriage Line */}
-          {headData.spouses.length > 0 && (
-            <div className="flex items-center">
-              <div className="w-8 h-px bg-red-400"></div>
-              <div className="w-4 h-4 bg-red-400 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs">💕</span>
-              </div>
-              <div className="w-8 h-px bg-red-400"></div>
-            </div>
-          )}
-
-          {/* Spouse */}
-          {headData.spouses.map((spouse) => {
-            treeData.displayedMembers.add(spouse.id); // Mark spouse as displayed
-            return (
-              <div key={spouse.id} className="flex flex-col items-center mx-4">
-                <div className="text-xs text-gray-600 mb-2 font-semibold">
-                  {spouse.gender === 'पुरुष' ? 'पति (Husband)' : 'पत्नी (Wife)'}
-                </div>
-                <div className={`w-24 h-32 rounded-xl border-4 ${
-                  spouse.gender === 'पुरुष' ? 'border-blue-500 bg-blue-50' : 'border-pink-500 bg-pink-50'
-                } flex flex-col items-center justify-center p-2 shadow-lg`}>
-                  <div className={`w-12 h-12 rounded-full ${
-                    spouse.gender === 'पुरुष' ? 'bg-blue-400' : 'bg-pink-400'
-                  } flex items-center justify-center mb-2`}>
-                    <span className="text-white font-bold text-sm">
-                      {spouse.name.charAt(0)}
-                    </span>
+          return (
+            <div key={head.id} className="family-unit border-2 border-gray-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-center mb-6 text-gray-800">
+                {head.name} का परिवार (Family)
+              </h3>
+              
+              {/* Parents Row */}
+              <div className="flex justify-center items-center mb-8 space-x-8">
+                {/* Husband */}
+                <div className="text-center">
+                  <div className="text-sm font-semibold text-gray-600 mb-2">
+                    {head.gender === 'पुरुष' ? 'पति (Husband)' : 'पत्नी (Wife)'}
                   </div>
-                  <div className="text-center">
-                    <p className="text-xs font-semibold text-gray-800 leading-tight">{spouse.name}</p>
-                    {spouse.age && <p className="text-xs text-gray-600">उम्र: {spouse.age}</p>}
-                    {spouse.occupation && <p className="text-xs text-gray-500">{spouse.occupation}</p>}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Children Section */}
-        {headData.children.length > 0 && (
-          <div className="children-section">
-            <div className="flex justify-center mb-4">
-              <div className="w-px h-12 bg-gray-400"></div>
-            </div>
-            <div className="text-center mb-6">
-              <span className="text-sm font-semibold text-gray-700 bg-yellow-100 px-3 py-1 rounded">
-                बच्चे (Children)
-              </span>
-            </div>
-            <div className="flex justify-center flex-wrap gap-6">
-              {headData.children.map((child) => {
-                if (treeData.displayedMembers.has(child.id)) return null;
-                treeData.displayedMembers.add(child.id);
-                
-                return (
-                  <div key={child.id} className="flex flex-col items-center">
-                    <div className="text-xs text-gray-600 mb-2 font-semibold">
-                      {child.gender === 'पुरुष' ? 'बेटा (Son)' : 'बेटी (Daughter)'}
+                  <div className={`w-24 h-32 rounded-xl border-4 ${
+                    head.gender === 'पुरुष' ? 'border-blue-500 bg-blue-50' : 'border-pink-500 bg-pink-50'
+                  } flex flex-col items-center justify-center p-2 shadow-lg`}>
+                    <div className={`w-16 h-16 rounded-full ${
+                      head.gender === 'पुरुष' ? 'bg-blue-400' : 'bg-pink-400'
+                    } flex items-center justify-center mb-2`}>
+                      <span className="text-white font-bold text-lg">
+                        {head.name.charAt(0)}
+                      </span>
                     </div>
-                    <div className={`w-20 h-28 rounded-xl border-4 ${
-                      child.gender === 'पुरुष' ? 'border-blue-500 bg-blue-50' : 'border-pink-500 bg-pink-50'
+                    <div className="text-center">
+                      <p className="text-xs font-semibold text-gray-800">{head.name}</p>
+                      {head.age && <p className="text-xs text-gray-600">उम्र: {head.age}</p>}
+                      {head.occupation && <p className="text-xs text-gray-500">{head.occupation}</p>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Spouse */}
+                {headData.spouses.map((spouse) => (
+                  <div key={spouse.id} className="text-center">
+                    <div className="text-sm font-semibold text-gray-600 mb-2">
+                      {spouse.gender === 'पुरुष' ? 'पति (Husband)' : 'पत्नी (Wife)'}
+                    </div>
+                    <div className={`w-24 h-32 rounded-xl border-4 ${
+                      spouse.gender === 'पुरुष' ? 'border-blue-500 bg-blue-50' : 'border-pink-500 bg-pink-50'
                     } flex flex-col items-center justify-center p-2 shadow-lg`}>
-                      <div className={`w-12 h-12 rounded-full ${
-                        child.gender === 'पुरुष' ? 'bg-blue-400' : 'bg-pink-400'
-                      } flex items-center justify-center mb-1`}>
-                        <span className="text-white font-bold text-sm">
-                          {child.name.charAt(0)}
+                      <div className={`w-16 h-16 rounded-full ${
+                        spouse.gender === 'पुरुष' ? 'bg-blue-400' : 'bg-pink-400'
+                      } flex items-center justify-center mb-2`}>
+                        <span className="text-white font-bold text-lg">
+                          {spouse.name.charAt(0)}
                         </span>
                       </div>
                       <div className="text-center">
-                        <p className="text-xs font-semibold text-gray-800 leading-tight">{child.name}</p>
-                        {child.age && <p className="text-xs text-gray-600">उम्र: {child.age}</p>}
-                        {child.occupation && <p className="text-xs text-gray-500">{child.occupation}</p>}
+                        <p className="text-xs font-semibold text-gray-800">{spouse.name}</p>
+                        {spouse.age && <p className="text-xs text-gray-600">उम्र: {spouse.age}</p>}
+                        {spouse.occupation && <p className="text-xs text-gray-500">{spouse.occupation}</p>}
                       </div>
                     </div>
-                    
-                    {/* Show individual family link for married male children */}
-                    {child.gender === 'पुरुष' && treeData.memberMap[child.id]?.spouses?.length > 0 && (
-                      <div className="mt-2">
-                        <Link to={`/individual-family/${child.id}`}>
-                          <Button size="sm" variant="outline" className="text-xs px-2 py-1">
-                            {child.name.split(' ')[0]} का परिवार
-                          </Button>
-                        </Link>
-                      </div>
-                    )}
                   </div>
-                );
-              })}
+                ))}
+              </div>
+
+              {/* Children Section */}
+              {headData.children.length > 0 && (
+                <div>
+                  <div className="text-center mb-4">
+                    <span className="text-sm font-semibold text-gray-700 bg-yellow-100 px-3 py-1 rounded">
+                      बच्चे (Children)
+                    </span>
+                  </div>
+                  <div className="flex justify-center flex-wrap gap-6">
+                    {headData.children.map((child) => (
+                      <div key={child.id} className="text-center">
+                        <div className="text-sm font-semibold text-gray-600 mb-2">
+                          {child.gender === 'पुरुष' ? 'बेटा (Son)' : 'बेटी (Daughter)'}
+                        </div>
+                        <div className={`w-20 h-28 rounded-xl border-4 ${
+                          child.gender === 'पुरुष' ? 'border-blue-500 bg-blue-50' : 'border-pink-500 bg-pink-50'
+                        } flex flex-col items-center justify-center p-2 shadow-lg`}>
+                          <div className={`w-12 h-12 rounded-full ${
+                            child.gender === 'पुरुष' ? 'bg-blue-400' : 'bg-pink-400'
+                          } flex items-center justify-center mb-1`}>
+                            <span className="text-white font-bold text-sm">
+                              {child.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs font-semibold text-gray-800">{child.name}</p>
+                            {child.age && <p className="text-xs text-gray-600">उम्र: {child.age}</p>}
+                            {child.occupation && <p className="text-xs text-gray-500">{child.occupation}</p>}
+                          </div>
+                        </div>
+                        
+                        {/* Individual family link for married male children */}
+                        {child.gender === 'पुरुष' && treeData.memberMap[child.id]?.spouses?.length > 0 && (
+                          <div className="mt-2">
+                            <Link to={`/individual-family/${child.id}`}>
+                              <Button size="sm" variant="outline" className="text-xs px-2 py-1">
+                                {child.name.split(' ')[0]} का परिवार
+                              </Button>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
+          );
+        })}
       </div>
     );
   };
