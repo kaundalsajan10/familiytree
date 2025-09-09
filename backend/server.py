@@ -127,7 +127,7 @@ async def get_families():
     return [Family(**parse_from_mongo(family)) for family in families]
 
 @api_router.post("/families", response_model=Family)
-async def create_family(family_data: FamilyCreate):
+async def create_family(family_data: FamilyCreate, admin: dict = Depends(verify_admin)):
     family = Family(**family_data.dict())
     family_dict = prepare_for_mongo(family.dict())
     await db.families.insert_one(family_dict)
