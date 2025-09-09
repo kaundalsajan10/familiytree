@@ -766,7 +766,7 @@ const AdminPanel = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="families">
+          <TabsContent value="view">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {families.map((family) => {
                 const familyMembers = members.filter(m => m.family_id === family.id);
