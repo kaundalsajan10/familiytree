@@ -61,6 +61,7 @@ class MemberCreate(BaseModel):
     contact: Optional[str] = None
     photo_url: Optional[str] = None
     gender: Optional[str] = None
+    additional_families: Optional[List[str]] = []
 
 class Relationship(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
