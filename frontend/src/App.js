@@ -294,7 +294,6 @@ const FamilyTree = ({ familyId }) => {
 
   const buildTreeStructure = (members, relationships) => {
     const memberMap = {};
-    const displayedMembers = new Set(); // Track displayed members to avoid duplicates
     
     // Create member map
     members.forEach(member => {
@@ -302,8 +301,7 @@ const FamilyTree = ({ familyId }) => {
         ...member, 
         children: [], 
         spouses: [], 
-        parents: [],
-        isDisplayed: false
+        parents: []
       };
     });
 
@@ -352,16 +350,13 @@ const FamilyTree = ({ familyId }) => {
       }
     });
 
-    // Find family heads (members with no parents or oldest married members)
+    // Find family heads (members with no parents)
     const familyHeads = members.filter(member => {
       const memberData = memberMap[member.id];
       return memberData.parents.length === 0;
     }).sort((a, b) => (b.age || 0) - (a.age || 0));
 
-    // If no clear heads found, use oldest members
-    const actualHeads = familyHeads.length > 0 ? familyHeads : members.sort((a, b) => (b.age || 0) - (a.age || 0)).slice(0, 2);
-
-    setTreeData({ memberMap, familyHeads: actualHeads, displayedMembers });
+    setTreeData({ memberMap, familyHeads });
   };
 
   const renderFamilyUnit = (head) => {
